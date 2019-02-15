@@ -1,0 +1,23 @@
+@import 'index.scss';
+
+#menu.ui.menu {
+  background: $main_color;
+}
+
+#menu .header {
+  color: white;
+}
+
+#menu-right {
+  button,
+  a {
+    color: white;
+    background: $main_color;
+    font-weight: normal;
+    &:hover {
+      color: $main_color;
+      background: white;
+      border: none;
+    }
+  }
+}

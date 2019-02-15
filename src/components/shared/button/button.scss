@@ -1,0 +1,9 @@
+@import 'index.scss';
+
+.main-button.ui.button {
+  color: white;
+  background: $main_color;
+  &:hover {
+    background: $second_color;
+  }
+}
