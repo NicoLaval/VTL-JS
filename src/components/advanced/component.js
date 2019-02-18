@@ -37,6 +37,7 @@ class Advanced extends Component {
     return (
       <>
         <Title label={D.advancedTitle} />
+        Hello 2
         <TextAreaHtml value={buildHtml(input)} handleChange={this.handleChange} update={update} />
         <div>
           <Button label={D.exampleBtn} onClick={this.handleClickExample} />
