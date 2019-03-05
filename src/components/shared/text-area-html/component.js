@@ -1,56 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor, CompositeDecorator } from 'draft-js';
-import { editorStateFromHtmlWithDecorator, plainTextFromEditorState } from 'utils/html';
+import { editorStateFromHtmlWithDecorator, plainTextFromEditorState, buildHtml } from 'utils/html';
 import 'draft-js/dist/Draft.css';
 import './text-area-html.scss';
+import antlr4 from 'antlr4';
+import { VtlLexer, VtlParser, CustomVtlVisitor } from 'parsing';
 
-function findVariable(contentBlock, callback) {
-  const regex = /[a-zA-Z]*=/g;
-
-  const text = contentBlock.getText();
-  let matchArr;
-  let start;
-  // eslint-disable-next-line no-cond-assign
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    callback(start, start + matchArr[0].length - 1);
-  }
-}
-
-function findValue(contentBlock, callback) {
-  const regex = /=[a-zA-Z]*/g;
-
-  const text = contentBlock.getText();
-  let matchArr;
-  let start;
-  // eslint-disable-next-line no-cond-assign
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    callback(start + 1, start + matchArr[0].length);
-  }
-}
-
-function handleVariableStrategy(contentBlock, callback) {
-  findVariable(contentBlock, callback);
-}
-
-function handleValueStrategy(contentBlock, callback) {
-  findValue(contentBlock, callback);
-}
-
-const handleVariable = props => {
-  return (
-    <>
-      <strong style={{ background: 'red' }}>{props.children}</strong>
-    </>
-  );
+const visitStart = text => handler => {
+  const chars = new antlr4.InputStream(text);
+  const lexer = new VtlLexer(chars);
+  const tokens = new antlr4.CommonTokenStream(lexer);
+  const parser = new VtlParser(tokens);
+  parser.buildParseTrees = true;
+  const ctx = parser.start();
+  const visitor = new CustomVtlVisitor(handler);
+  return visitor.visitStart(ctx);
 };
 
-const handleValue = props => {
+const handleVariable = ({ children }) => {
   return (
     <>
-      <strong style={{ background: 'blue' }}>{props.children}</strong>
+      <strong style={{ background: '#ff337a' }}>{children}</strong>
     </>
   );
 };
@@ -58,46 +29,50 @@ const handleValue = props => {
 class TextAreaHtml extends React.Component {
   constructor(props) {
     super(props);
-    const { value } = props;
-    this.compositeDecorator = new CompositeDecorator([
-      {
-        strategy: handleVariableStrategy,
-        component: handleVariable,
-      },
-      {
-        strategy: handleValueStrategy,
-        component: handleValue,
-      },
-    ]);
-
-    this.state = { editorState: editorStateFromHtmlWithDecorator(value, this.compositeDecorator) };
-    this.onChange = editorState => {
-      const { handleChange } = this.props;
-      handleChange(plainTextFromEditorState(editorState));
-      this.setState({ editorState });
+    this.handleVariableStrategy = (contentBlock, callback) => {
+      const { variables } = this.state;
+      const text = contentBlock.getText();
+      variables.forEach(c => {
+        const start = text.indexOf(c);
+        callback(start, start + c.length);
+      });
     };
-  }
-
-  static getDerivedStateFromProps({ update, value }) {
-    if (update) {
-      return {
-        editorState: editorStateFromHtmlWithDecorator(value, {
-          decorator: this.compositeDecorator,
-        }),
-      };
-    }
-    return null;
+    this.state = {
+      editorState: editorStateFromHtmlWithDecorator(
+        buildHtml(''),
+        new CompositeDecorator([
+          {
+            strategy: this.handleVariableStrategy,
+            component: handleVariable,
+          },
+        ])
+      ),
+      variables: [],
+    };
+    this.handleChange = editorState => {
+      const input = plainTextFromEditorState(editorState);
+      if (!input) this.setState({ variables: [] });
+      else visitStart(input)(this.handleChangeVariables);
+      this.setState({
+        editorState: editorStateFromHtmlWithDecorator(
+          buildHtml(input),
+          new CompositeDecorator([
+            {
+              strategy: this.handleVariableStrategy,
+              component: handleVariable,
+            },
+          ])
+        ),
+      });
+    };
+    this.handleChangeVariables = variables => this.setState({ variables });
   }
 
   render() {
-    const { editorState } = this.state;
-    return <Editor editorState={editorState} onChange={this.onChange} />;
+    const { editorState, variables } = this.state;
+    console.log(variables);
+    return <Editor editorState={editorState} onChange={this.handleChange} />;
   }
 }
 
 export default TextAreaHtml;
-
-TextAreaHtml.propTypes = {
-  value: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-};
