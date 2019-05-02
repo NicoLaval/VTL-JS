@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Editor, CompositeDecorator } from 'draft-js';
 import { editorStateFromHtmlWithDecorator, plainTextFromEditorState, buildHtml } from 'utils/html';
 import 'draft-js/dist/Draft.css';
@@ -21,7 +20,7 @@ const visitStart = text => handler => {
 const handleVariable = ({ children }) => {
   return (
     <>
-      <strong style={{ background: '#ff337a' }}>{children}</strong>
+      <strong style={{ color: '#ff337a' }}>{children}</strong>
     </>
   );
 };
@@ -29,48 +28,36 @@ const handleVariable = ({ children }) => {
 class TextAreaHtml extends React.Component {
   constructor(props) {
     super(props);
-    this.handleVariableStrategy = (contentBlock, callback) => {
-      const { variables } = this.state;
-      const text = contentBlock.getText();
-      variables.forEach(c => {
-        const start = text.indexOf(c);
-        callback(start, start + c.length);
-      });
-    };
+    this.decorator = new CompositeDecorator([
+      {
+        strategy: (contentBlock, callback) => {
+          const { variables } = this.state;
+          const text = contentBlock.getText();
+          variables.forEach(c => {
+            const start = text.indexOf(c);
+            callback(start, start + c.length);
+          });
+        },
+        component: handleVariable,
+      },
+    ]);
     this.state = {
-      editorState: editorStateFromHtmlWithDecorator(
-        buildHtml(''),
-        new CompositeDecorator([
-          {
-            strategy: this.handleVariableStrategy,
-            component: handleVariable,
-          },
-        ])
-      ),
+      editorState: editorStateFromHtmlWithDecorator(buildHtml(''), this.decorator),
       variables: [],
     };
     this.handleChange = editorState => {
       const input = plainTextFromEditorState(editorState);
       if (!input) this.setState({ variables: [] });
       else visitStart(input)(this.handleChangeVariables);
-      this.setState({
-        editorState: editorStateFromHtmlWithDecorator(
-          buildHtml(input),
-          new CompositeDecorator([
-            {
-              strategy: this.handleVariableStrategy,
-              component: handleVariable,
-            },
-          ])
-        ),
-      });
+      this.setState({ editorState });
     };
-    this.handleChangeVariables = variables => this.setState({ variables });
+    this.handleChangeVariables = variables => {
+      this.setState({ variables });
+    };
   }
 
   render() {
-    const { editorState, variables } = this.state;
-    console.log(variables);
+    const { editorState } = this.state;
     return <Editor editorState={editorState} onChange={this.handleChange} />;
   }
 }

@@ -10,16 +10,8 @@ function CustomVtlVisitor(handleChangeVariables) {
 CustomVtlVisitor.prototype = Object.create(VtlVisitor.prototype);
 CustomVtlVisitor.prototype.constructor = CustomVtlVisitor;
 
-CustomVtlVisitor.prototype.visitStart = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-CustomVtlVisitor.prototype.visitStatement = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-CustomVtlVisitor.prototype.visitExpr = function(ctx) {
-  return this.visitChildren(ctx);
+CustomVtlVisitor.prototype.visitExpr = async function(ctx) {
+  await this.visitChildren(ctx);
 };
 
 CustomVtlVisitor.prototype.visitVarID = function(ctx) {

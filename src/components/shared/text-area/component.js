@@ -14,5 +14,5 @@ Validation.propTypes = {
 };
 
 Validation.defaultProps = {
-  handleChange: e => e.preventDefault(),
+  handleChange: console.log,
 };

@@ -27,7 +27,7 @@ class Simple extends Component {
     return (
       <>
         <Title label={D.simpleTitle} />
-        <TextArea value={input} onChange={this.handleChange} />
+        <TextArea value={input} handleChange={this.handleChange} />
         <div>
           <Button label={D.exampleBtn} onClick={this.handleClickExample} />
           <Button label={D.validationBtn} onClick={this.handleClick} />
