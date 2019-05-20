@@ -1,19 +1,19 @@
 import { VtlVisitor } from './antlr';
 
-function CustomVtlVisitor(handleChangeVariables) {
+function AdvancedVtlVisitor(handleChangeVariables) {
   VtlVisitor.call(this);
   this.variables = [];
   this.handleChangeVariables = handleChangeVariables;
   return this;
 }
 
-CustomVtlVisitor.prototype = Object.create(VtlVisitor.prototype);
-CustomVtlVisitor.prototype.constructor = CustomVtlVisitor;
+AdvancedVtlVisitor.prototype = Object.create(VtlVisitor.prototype);
+AdvancedVtlVisitor.prototype.constructor = AdvancedVtlVisitor;
 
-CustomVtlVisitor.prototype.visitVarID = function(ctx) {
+AdvancedVtlVisitor.prototype.visitVarID = function(ctx) {
   this.variables.push(ctx.getText());
   this.handleChangeVariables(this.variables);
   return this.visitChildren(ctx);
 };
 
-export default CustomVtlVisitor;
+export default AdvancedVtlVisitor;

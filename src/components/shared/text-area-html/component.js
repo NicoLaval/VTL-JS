@@ -4,7 +4,7 @@ import { editorStateFromHtmlWithDecorator, plainTextFromEditorState, buildHtml }
 import 'draft-js/dist/Draft.css';
 import './text-area-html.scss';
 import antlr4 from 'antlr4';
-import { VtlLexer, VtlParser, CustomVtlVisitor } from 'parsing';
+import { VtlLexer, VtlParser, AdvancedVtlVisitor } from 'parsing';
 
 const visitStart = text => handler => {
   const chars = new antlr4.InputStream(text);
@@ -13,7 +13,7 @@ const visitStart = text => handler => {
   const parser = new VtlParser(tokens);
   parser.buildParseTrees = true;
   const ctx = parser.start();
-  const visitor = new CustomVtlVisitor(handler);
+  const visitor = new AdvancedVtlVisitor(handler);
   return visitor.visitStart(ctx);
 };
 
