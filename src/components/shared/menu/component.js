@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 import D from 'i18n';
 import './menu.scss';
 
-const CustomMenu = ({ history }) => {
-  const [selected, setSelected] = useState('/simple');
+const CustomMenu = ({ history, location: { pathname } }) => {
+  const [selected, setSelected] = useState(pathname);
   const handler = path => {
     setSelected(path);
     history.push(path);
@@ -45,4 +45,5 @@ export default withRouter(CustomMenu);
 
 CustomMenu.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
 };
