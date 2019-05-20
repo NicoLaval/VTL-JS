@@ -9,4 +9,5 @@ export default {
   },
   validationBtn: { fr: 'Valider', en: 'Valid' },
   exampleBtn: { fr: 'Exemple', en: 'Example' },
+  APIError: { fr: 'Erreur API', en: 'API Error' },
 };

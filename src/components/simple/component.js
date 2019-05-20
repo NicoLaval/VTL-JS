@@ -17,8 +17,14 @@ class Simple extends Component {
     this.handleClick = () => {
       const { input } = this.state;
       getTree(input)
-        .then(response => response.text())
-        .then(response => this.setState({ response, responseStatus: 200 }));
+        .then(response => {
+          if (!response.ok) this.setState({ responseStatus: 500 });
+          else {
+            this.setState({ responseStatus: 200 });
+            return response.text();
+          }
+        })
+        .then(response => this.setState({ response }));
     };
   }
 
@@ -32,6 +38,7 @@ class Simple extends Component {
           <Button label={D.exampleBtn} onClick={this.handleClickExample} />
           <Button label={D.validationBtn} onClick={this.handleClick} />
         </div>
+        {input && responseStatus === 500 && <SubTitle label={D.APIError} />}
         {input && responseStatus === 200 && <SubTitle label={D.vtlValid} />}
         {input && response && <Response response={response} />}
       </>
