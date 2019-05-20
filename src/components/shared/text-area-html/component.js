@@ -35,7 +35,7 @@ class TextAreaHtml extends React.Component {
           const text = contentBlock.getText();
           variables.forEach(c => {
             const start = text.indexOf(c);
-            callback(start, start + c.length);
+            if (start >= 0) callback(start, start + c.length);
           });
         },
         component: handleVariable,
