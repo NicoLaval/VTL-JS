@@ -15,9 +15,15 @@
     background: $main_color;
     font-weight: normal;
     &:hover {
-      color: $main_color;
+      color: $second_color;
       background: white;
       border: none;
     }
   }
+}
+
+#menu-right button.ui.big.button.selected {
+  color: $main_color;
+  background: white;
+  border: none;
 }
