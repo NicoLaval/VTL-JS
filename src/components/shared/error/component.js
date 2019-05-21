@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Subtitle from 'components/shared/sub-title';
-import Response from 'components/shared/response';
+import { Subtitle, Response } from 'components/shared';
 import D from 'i18n';
 
 const Error = ({ errors }) => (

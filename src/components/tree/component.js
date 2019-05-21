@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
-import Title from 'components/shared/title';
-import TextArea from 'components/shared/text-area';
-import Button from 'components/shared/button';
-import TreeComponent from 'components/shared/tree';
+import { Title, TextArea, Button, Tree as TreeComponent } from 'components/shared';
 import D from 'i18n';
 import antlr4 from 'antlr4';
 import { VtlLexer, VtlParser, TreeVtlVisitor } from 'parsing';

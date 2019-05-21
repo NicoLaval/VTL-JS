@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import Title from 'components/shared/title';
-import TextArea from 'components/shared/text-area';
-import Button from 'components/shared/button';
-import SubTitle from 'components/shared/sub-title';
-import Response from 'components/shared/response';
+import { Title, TextArea, Button, Subtitle, Response } from 'components/shared';
 import { getTree } from 'remote-api';
 import D from 'i18n';
 import VtlExample from 'utils/example';
@@ -38,8 +34,8 @@ class Simple extends Component {
           <Button label={D.exampleBtn} onClick={this.handleClickExample} />
           <Button label={D.validationBtn} onClick={this.handleClick} />
         </div>
-        {input && responseStatus === 500 && <SubTitle label={D.APIError} />}
-        {input && responseStatus === 200 && <SubTitle label={D.vtlValid} />}
+        {input && responseStatus === 500 && <Subtitle label={D.APIError} />}
+        {input && responseStatus === 200 && <Subtitle label={D.vtlValid} />}
         {input && response && <Response response={response} />}
       </>
     );

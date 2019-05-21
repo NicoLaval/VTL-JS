@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
-import Menu from 'components/shared/menu';
+import { Menu } from 'components/shared';
 import SimpleAPI from './simple-api';
 import SimpleJS from './simple-js';
 import Tree from './tree';

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import Title from 'components/shared/title';
-import TextArea from 'components/shared/text-area';
-import Button from 'components/shared/button';
-import Error from 'components/shared/error';
+import { Title, TextArea, Button, Error } from 'components/shared';
 import antlr4 from 'antlr4';
 import { VtlLexer, VtlParser, SimpleErrorListener } from 'parsing';
 import VtlExample from 'utils/example';

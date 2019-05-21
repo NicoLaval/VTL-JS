@@ -1,6 +1,5 @@
 import React from 'react';
-import Title from 'components/shared/title';
-import TextAreaHtml from 'components/shared/text-area-html';
+import { Title, TextAreaHtml } from 'components/shared';
 import D from 'i18n';
 
 const Advanced = () => (
