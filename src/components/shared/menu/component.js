@@ -16,11 +16,18 @@ const CustomMenu = ({ history, location: { pathname } }) => {
       <Menu.Item header>{D.appTitle}</Menu.Item>
       <Menu.Menu position="right" id="menu-right">
         <Button
-          className={selected === '/simple' ? 'selected' : ''}
+          className={selected === '/simple-api' ? 'selected' : ''}
           size="big"
-          onClick={() => handler('/simple')}
+          onClick={() => handler('/simple-api')}
         >
-          {D.simpleTitle}
+          {D.simpleAPITitle}
+        </Button>
+        <Button
+          className={selected === '/simple-js' ? 'selected' : ''}
+          size="big"
+          onClick={() => handler('/simple-js')}
+        >
+          {D.simpleJSTitle}
         </Button>
         <Button
           className={selected === '/tree' ? 'selected' : ''}

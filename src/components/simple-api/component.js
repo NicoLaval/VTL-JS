@@ -32,7 +32,7 @@ class Simple extends Component {
     const { input, responseStatus, response } = this.state;
     return (
       <>
-        <Title label={D.simpleTitle} />
+        <Title label={D.simpleAPITitle} />
         <TextArea value={input} handleChange={this.handleChange} />
         <div>
           <Button label={D.exampleBtn} onClick={this.handleClickExample} />
