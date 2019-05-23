@@ -5,6 +5,7 @@ import SimpleAPI from './simple-api';
 import SimpleJS from './simple-js';
 import Tree from './tree';
 import Advanced from './advanced';
+import Monaco from './monaco';
 
 const Root = () => (
   <Router>
@@ -16,6 +17,7 @@ const Root = () => (
           <Route exact path="/simple-js" component={SimpleJS} />
           <Route exact path="/tree" component={Tree} />
           <Route exact path="/advanced" component={Advanced} />
+          <Route exact path="/monaco" component={Monaco} />
           <Redirect from="/" to="/simple-api" />
         </Switch>
       </div>

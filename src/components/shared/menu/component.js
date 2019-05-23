@@ -41,7 +41,14 @@ const CustomMenu = ({ history, location: { pathname } }) => {
           size="big"
           onClick={() => handler('/advanced')}
         >
-          {D.advancedTitle}
+          {D.draftTitle}
+        </Button>
+        <Button
+          className={selected === '/monaco' ? 'selected' : ''}
+          size="big"
+          onClick={() => handler('/monaco')}
+        >
+          {D.monacoTitle}
         </Button>
       </Menu.Menu>
     </Menu>

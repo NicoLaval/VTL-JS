@@ -4,7 +4,7 @@ import D from 'i18n';
 
 const Advanced = () => (
   <>
-    <Title label={D.advancedTitle} />
+    <Title label={D.draftTitle} />
     <TextAreaHtml forcedValue="" />
   </>
 );
