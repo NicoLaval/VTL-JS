@@ -11,6 +11,8 @@ export default {
     en: 'VTL syntaxe valid - Generated tree:',
   },
   validationBtn: { fr: 'Valider', en: 'Valid' },
+  enableBtn: { fr: 'Activé', en: 'Enable' },
+  disableBtn: { fr: 'Désactivé', en: 'Disable' },
   exampleBtn: { fr: 'Exemple', en: 'Example' },
   APIError: { fr: 'Erreur API', en: 'API Error' },
 };

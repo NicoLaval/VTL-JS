@@ -1,45 +1,25 @@
-import React, { Component } from 'react';
-import MonacoEditor from 'react-monaco-editor';
-import { Title } from 'components/shared';
+import React, { useState } from 'react';
+import { VtlEditor } from 'react-vtl-editor';
+import { Title, Button } from 'components/shared';
 import D from 'i18n';
 import './monaco.scss';
 
-class Monaco extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: '',
-    };
-    this.onChange = (newValue, e) => console.log('onChange', newValue, e);
-    this.editorDidMount = (editor, monaco) => {
-      console.log('editorDidMount', editor);
-      editor.focus();
-    };
-  }
-
-  render() {
-    const { code } = this.state;
-    const options = {
-      selectOnLineNumbers: true,
-    };
-    return (
-      <>
-        <Title label={D.monacoTitle} />
-        <div className="monaco">
-          <MonacoEditor
-            // width="800"
-            height="400"
-            language="javascript"
-            theme="vs-dark"
-            value={code}
-            options={options}
-            onChange={this.onChange}
-            editorDidMount={this.editorDidMount}
-          />
-        </div>
-      </>
-    );
-  }
-}
+const Monaco = () => {
+  const [value, setValue] = useState('');
+  const [valid, setValid] = useState(true);
+  return (
+    <>
+      <Title label={D.monacoTitle} />
+      <div className="monaco-editor">
+        <VtlEditor handleValue={setValue} handleValid={setValid} />
+      </div>
+      <Button
+        label={valid ? D.enableBtn : D.disableBtn}
+        onClick={() => console.log(value)}
+        disabled={!valid}
+      />
+    </>
+  );
+};
 
 export default Monaco;

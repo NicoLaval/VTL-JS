@@ -6,4 +6,7 @@
   &:hover {
     background: $second_color;
   }
+  &:disabled {
+    background: grey;
+  }
 }
